@@ -20,7 +20,7 @@ spring:
             - name: RateLimitFilter
               args:
                 route: /api/student/**
-                refillRatePerSecond: 4
+                refillRatePerSecond: 1
                 perMinute: 60
 
         # Order Service Route
