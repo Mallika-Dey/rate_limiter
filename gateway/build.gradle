@@ -47,6 +47,8 @@ dependencies {
     // Modern Bucket4j for JDK17+ (compatible with JDK 21)
     implementation 'com.bucket4j:bucket4j_jdk17-redis-common:8.12.1'
     implementation 'com.bucket4j:bucket4j_jdk17-lettuce:8.12.1'
+
+    implementation 'org.springframework.kafka:spring-kafka'
 }
 
 tasks.named('test') {

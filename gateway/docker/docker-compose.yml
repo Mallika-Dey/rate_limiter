@@ -7,38 +7,79 @@ services:
       - "6379:6379"    # Redis default port
     networks:
       - monitoring-net
-  postgres:
-    image: postgres:16
-    container_name: license-postgres
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
     environment:
-      POSTGRES_DB: license
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "5432:5432"
-    volumes:
-      - license_postgres_data:/var/lib/postgresql/data
-    restart: always
+      - "2181:2181"
     networks:
       - monitoring-net
 
-  pgadmin:
-    image: dpage/pgadmin4:8.13
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: kafka
     ports:
-      - "5050:80"
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
-      - postgres
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    restart: always
+      - zookeeper
+    networks:
+      - monitoring-net
 
-volumes:
-  license_postgres_data:
-  pgadmin_data:
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8085:8080"   # host port : container port
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - monitoring-net
+#  postgres:
+#    image: postgres:16
+#    container_name: license-postgres
+#    environment:
+#      POSTGRES_DB: license
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - license_postgres_data:/var/lib/postgresql/data
+#    restart: always
+#    networks:
+#      - monitoring-net
+#
+#  pgadmin:
+#    image: dpage/pgadmin4:8.13
+#    container_name: pgadmin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#      PGADMIN_DEFAULT_PASSWORD: admin
+#    ports:
+#      - "5050:80"
+#    depends_on:
+#      - postgres
+#    volumes:
+#      - pgadmin_data:/var/lib/pgadmin
+#    restart: always
+#
+#volumes:
+#  license_postgres_data:
+#  pgadmin_data:
 
 networks:
   monitoring-net:
