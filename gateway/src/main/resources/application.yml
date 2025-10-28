@@ -26,22 +26,6 @@ spring:
             - Path=/api/users/**
           filters:
             - name: RateLimitFilter
-              args:
-                route: /api/student/**
-                refillRatePerSecond: 1
-                perMinute: 60
-
-        # Order Service Route
-        - id: order-service
-          uri: lb://orderservice
-          predicates:
-            - Path=/api/orders/**
-          filters:
-            - name: RateLimitFilter
-              args:
-                route: /api/student/**
-                perSecond: 4
-                perMinute: 60
 
       discovery:
         locator:

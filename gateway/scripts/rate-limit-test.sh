@@ -1,7 +1,7 @@
 #!/bin/bash
 
 URL="http://localhost:8080/api/users/test"
-API_KEY="clientId1"
+API_KEY="mallika"
 
 REQUESTS_PER_SECOND=3      # Number of requests to send per second
 DURATION_SECONDS=90        # Total test duration (1.5 minutes)
