@@ -14,13 +14,13 @@ This project is a **distributed rate limiting platform** designed to control API
 
 | Layer | Technology |
 |-------|-------------|
-| Language | Java 21 |
-| Framework | Spring Boot 3.x |
-| Gateway | Spring Cloud Gateway |
-| Rate Limiting | Bucket4j |
-| Cache / Storage | Redis 7.x |
-| Build Tool | Gradle / Maven |
-| Container | Docker & Docker Compose |
+| **Language** | Java 21 |
+| **Framework** | Spring Boot 3.x |
+| **Gateway** | Spring Cloud Gateway |
+| **Rate Limiting** | **[Bucket4j](https://github.com/vladimir-bukhtoyarov/bucket4j)** |
+| **Cache / Storage** | Redis 7.x |
+| **Build Tool** | Gradle / Maven |
+| **Container** | Docker & Docker Compose |
 
 ---
 
