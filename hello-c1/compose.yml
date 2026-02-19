@@ -1,0 +1,9 @@
+services:
+  hello-world:
+    image: hello:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8080"
+    restart: on-failure
