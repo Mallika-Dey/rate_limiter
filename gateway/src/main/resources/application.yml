@@ -9,14 +9,14 @@ spring:
     gateway:
       routes:
         # User Service Route
-        - id: user-service
-          uri: lb://userservice   # must match Eureka serviceId
+        - id: app1-route
+          uri: lb://app-1   # must match Eureka serviceId
           predicates:
             - Path=/api/users/**
 
         # Order Service Route
-        - id: order-service
-          uri: lb://orderservice
+        - id: app2-route
+          uri: lb://app-2
           predicates:
             - Path=/api/orders/**
 
@@ -28,6 +28,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
