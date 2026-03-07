@@ -7,6 +7,18 @@ spring:
 
   cloud:
     gateway:
+      corsConfigurations:
+        '[/**]':
+          allowedOrigins:
+#            - "http://localhost:3000"
+            - "*"
+          allowedMethods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - OPTIONS
+          allowedHeaders: "*"
       routes:
         # User Service Route
         - id: app1-route

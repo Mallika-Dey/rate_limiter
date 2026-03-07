@@ -1,0 +1,66 @@
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "4000:80"
+    depends_on:
+      - api-gateway
+      - frontend
+    volumes:
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - micro-net
+      - front-net
+
+
+  frontend:
+    image: frontend:0.1
+    container_name: react-frontend
+    networks:
+      - front-net
+
+
+  eureka-server:
+    image: eureka:1.1
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - micro-net
+
+
+  api-gateway:
+    image: gateway:1.1
+    container_name: api-gateway
+    depends_on:
+      - eureka-server
+    networks:
+      - micro-net
+
+
+  app-1-instance-1:
+    image: app-1:1.1
+    container_name: app-1-instance-1
+    networks:
+      - micro-net
+
+
+  app-1-instance-2:
+    image: app-1:1.1
+    container_name: app-1-instance-2
+    networks:
+      - micro-net
+
+
+  app-2-instance-1:
+    image: app-2:1.1
+    container_name: app-2-instance-1
+    networks:
+      - micro-net
+
+
+networks:
+  micro-net:
+  front-net:
